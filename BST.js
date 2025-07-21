@@ -28,6 +28,41 @@ export class Tree{
         return root;
     }
     
+    deleteItem(root,value){
+
+      if ( root === null){
+        return root;
+      }
+
+      if ( value > root.data){
+        root.right = this.deleteItem(root.right, value)
+      }
+      else if ( value < root.data){
+        root.left = this.deleteItem(root.left, value);
+      }
+
+      else{
+
+        if ( root.left === null){
+          return root.right;
+        }
+        else if ( root.right === null){
+          return root.left;
+        }
+
+        let cur = root.right;
+        while ( cur.left !== null){
+          cur = cur.left
+        }
+
+        root.data = cur.data;
+        root.right = this.deleteItem(root.right,root.data)
+      }
+
+      return root;
+    }
+
+
     insert(root,value){
       if( root === null ){
         let node = new Node(value);
@@ -123,7 +158,27 @@ export class Tree{
         }
       }
     }
-  
+    
+    find(value){
+      return this.findHelper(this.root,value);
+    }
+
+    findHelper(root,value){
+      if ( root === null){
+        return root
+      }
+
+      if ( value > root.data){
+        return this.findHelper(root.right, value)
+      }
+      else if ( value < root.data){
+        return this.findHelper(root.left, value);
+      }
+      else{
+        return root;
+      }
+      
+    }
 
 }
 
