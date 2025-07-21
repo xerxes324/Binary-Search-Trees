@@ -27,6 +27,82 @@ export class Tree{
 
         return root;
     }
+    
+
+
+    levelOrderForEach(callbackfunction, root){
+      if ( root === null){
+        return;
+      }
+      let queue = [root];
+
+      while ( queue.length){
+
+        let levelsize = queue.length;
+        let levelnodes = [];
+
+        for ( let i = 0 ; i < levelsize ; i++){
+
+          let node = queue.shift();
+          levelnodes.push(node.data);
+
+          if ( node.left){
+            queue.push(node.left)
+          }
+          if ( node.right ){
+            queue.push(node.right);
+          }
+        }
+        callbackfunction(levelnodes);
+      }
+    }
+
+
+    inOrderForEach(callbackfunction, root){
+        if ( root === null){
+          return;
+        }
+        this.inOrderForEach(callbackfunction, root.left);
+        callbackfunction(root.data);
+        this.inOrderForEach(callbackfunction, root.right);
+    }
+
+    preOrderForEach(callbackfunction, root){
+      if ( root === null){
+        return;
+      }
+
+      callbackfunction(root.data);
+      this.preOrderForEach(callbackfunction, root.left);
+      this.preOrderForEach(callbackfunction, root.right);
+    }
+
+    postOrderForEach(callbackfunction, root){
+
+      let visited = [false]
+      let stack = [root];
+
+      while ( stack.length ){
+
+        let cur = stack.pop();
+        let v = visited.pop();
+        if ( cur ){
+          if (v){
+            callbackfunction(cur.data);
+          }
+          else{
+            stack.push(cur);
+            visited.push(true);
+            stack.push(cur.right);
+            visited.push(false);
+            stack.push(cur.left);
+            visited.push(false);
+          }
+        }
+      }
+    }
+  
+
 }
 
 export const prettyPrint = (node, prefix = '', isLeft = true) => {
