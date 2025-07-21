@@ -28,7 +28,29 @@ export class Tree{
         return root;
     }
     
+    insert(root,value){
+      if( root === null ){
+        let node = new Node(value);
+        return node;
+      }
 
+      if ( value < root.data){
+        let leftnode = this.insert(root.left, value);
+
+        if(leftnode){
+          root.left = leftnode;
+        }
+      }
+
+      else{
+        let rightnode = this.insert(root.right, value);
+        if ( rightnode ){
+          root.right = rightnode;
+        }
+      }
+
+      return root;
+    }
 
     levelOrderForEach(callbackfunction, root){
       if ( root === null){
