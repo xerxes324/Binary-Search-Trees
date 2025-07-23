@@ -217,10 +217,56 @@ export class Tree{
       return false;
     }
 
+    depth(value){
+      return this.depthHelper(this.root,value);
+    }
+
+    depthHelper(root,value){
+      
+      if ( root === null){
+        return null;
+      }
+
+      function dfs(root,value){
+
+        if ( root === null){
+          return false;
+        }
+
+        if ( value < root.data){
+         let left = dfs(root.left, value)
+         if ( left !== false){
+          return 1 + left;
+         }
+         return false;
+        }
+
+        if ( value > root.data){
+          let right = dfs(root.right, value)
+          if ( right !== false)
+          {
+            return 1 + right;
+          }
+          return false;
+        }
+
+        else{
+          return 0;
+        }
+
+      }
+
+
+      let call = dfs(root,value)
+      if (call === false){
+        return null;
+      }
+      return call;
+    }
+
     isBalanced(){
       return this.isBalancedHelper(this.root);
     }
-
 
     isBalancedHelper(root){
 
@@ -248,6 +294,8 @@ export class Tree{
 
       return dfs(root) !== -1; // returns False if -1 , else True.
     }
+
+
 }
 
 export const prettyPrint = (node, prefix = '', isLeft = true) => {
