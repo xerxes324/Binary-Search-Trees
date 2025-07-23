@@ -180,6 +180,74 @@ export class Tree{
       
     }
 
+    height(value){
+      return this.heightHelper(this.root, value);
+    }
+
+    heightHelper(root,value){
+      
+      if ( root === null ){
+        return false;
+      }
+
+      let flag = false;
+
+      function dfs(root,value){
+
+
+        if ( root === null){
+          return 0;
+        }
+
+        let left = dfs(root.left, value)
+        let right = dfs(root.right, value)
+
+        if ( root.data === value){
+          flag = true;
+          return Math.max(left,right);
+        }
+
+        return 1 + Math.max(left,right);
+      }
+      
+      let result = dfs(root,value);
+      if ( flag === true ){
+        return result
+      }
+      return false;
+    }
+
+    isBalanced(){
+      return this.isBalancedHelper(this.root);
+    }
+
+
+    isBalancedHelper(root){
+
+      function dfs(root){
+
+        if ( root === null){
+          return 0;
+        }
+
+        let left = dfs(root.left)
+        if ( left == -1){
+          return -1
+        }
+        let right = dfs(root.right)
+        if ( right == -1){
+          return -1
+        }
+
+        if ( Math.abs(left-right) > 1){
+          return -1
+        }
+
+        return 1 + Math.max(left,right);
+      }
+
+      return dfs(root) !== -1; // returns False if -1 , else True.
+    }
 }
 
 export const prettyPrint = (node, prefix = '', isLeft = true) => {
