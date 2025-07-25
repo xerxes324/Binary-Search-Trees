@@ -295,7 +295,22 @@ export class Tree{
       return dfs(root) !== -1; // returns False if -1 , else True.
     }
 
+    rebalance(){
+      let array1 = []
+      this.rebalanceHelper(array1, this.root);
+      this.root = this.BuildTree(array1, 0 ,array1.length - 1);
+    }
 
+    rebalanceHelper(array, root){
+      if ( root === null){
+        return;
+      }
+      this.rebalanceHelper(array, root.left);
+      array.push(root.data)
+      this.rebalanceHelper(array, root.right);
+
+      return root
+    }
 }
 
 export const prettyPrint = (node, prefix = '', isLeft = true) => {
